@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quantumix | Key</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/main.css') }}">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <meta name="description" content="Amplify your Roblox gameplay with our roblox script.">
+  <meta name="keywords" content="roblox scripts, find roblox scripts, best roblox scripts, synapsex, roblox script lua, roblox script finder">
+  <meta name="author" content="Quantumix">
+
+  <!-- captcha -->
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
+  <link rel="icon" type="image/x-icon" href="https://media.discordapp.net/attachments/1117379815641718837/1131256464288256040/20230718_225003.png">
+  <meta name="theme-color" content="#000000">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div class="container-qx">
+      <div class="header">
+        <div class="navigation-header d-flex text-center justify-content-center align-items-center">
+          <div class="container w-100">
+            <div class="container nav-items text-center w-100">
+              <div class="d-flex flex-wrap text-center justify-content-center w-100">
+                <a href="{{ url_for('home') }}" class="nav-link flex-fill">Home</a>
+                <a href="{{ url_for('getkey', checkpoint=DBCheckpoint) }}" class="nav-link flex-fill">Get Key</a>
+                <a href="{{ url_for('home') }}" class="nav-link flex-fill">Supported</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container postion-relative key text-center w-auto">
+        <div class="wrapper captcha-box w-90 d-flex flex-column justify-content-center align-items-center">
+          {% if captchaDone == True %}
+          <div class="key-box">
+            <div class="key-header">
+              <small>
+                <p>
+                  Welcome To Quantumix! <br> [ your key has been generated ]
+                </p>
+              </small>
+            </div>
+            <div class="key-body">
+              <h5 class="key-text text-uppercase">Your Key :</h5>
+              <div class="key-input-box">
+                <input type="text" value="{{ key }}" class="key-input">
+              </div>
+              <div class="key-footer d-flex justify-content-around flex-wrap">
+                <button class="keybtn ripple">Premium</button>
+                <button class="keybtn ripple" onclick="copyKey()">Copy Key</button>
+                <button class="keybtn ripple">Discord</button>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="captchaBox key-header text-uppercase text-center">
+            <small>
+              <p>
+                Complete the captcha to get your key!
+              </p>
+            </small>
+            <br>
+            <form onsubmit="captchaSubmit()" method="POST">
+              {{ captchaForm.csrf_token }}
+              {{ captchaForm.captcha }}
+              <br>
+              <input type="submit" value="submit" class="submit-btn ripple">
+            </form>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Automatically submit the form once reCAPTCHA is verified
+    
+  </script>
+  <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+  <script>
+    function copyKey() {
+    const key = document.querySelector('.key-input');
+    key.select();
+    key.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    }
+  </script>
+
+</body>
+
+</html>

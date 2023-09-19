@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quantumix | Redirect</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous">
+  </script>
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+  crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/main.css') }}">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <meta name="description" content="Amplify your Roblox gameplay with our roblox script.">
+  <meta name="keywords"
+  content="roblox scripts, find roblox scripts, best roblox scripts, synapsex, roblox script lua, roblox script finder">
+  <meta name="author" content="Quantumix">
+
+  <!-- captcha -->
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
+  <link rel="icon" type="image/x-icon"
+  href="https://media.discordapp.net/attachments/1117379815641718837/1131256464288256040/20230718_225003.png">
+  <meta name="theme-color" content="#000000">
+</head>
+
+<body>
+  
+  <div class="wrapper">
+    <div class="container-qx">
+      <div class="header">
+        <div class="navigation-header d-flex text-center justify-content-center align-items-center">
+          <div class="container w-100">
+            <div class="container nav-items text-center w-100">
+              <div class="d-flex flex-wrap text-center justify-content-center w-100">
+                <a href="{{ url_for('home') }}" class="nav-link flex-fill">Home</a>
+                <a href="{{ url_for('getkey', checkpoint=DataCheckpoint) }}" class="nav-link flex-fill">Get Key</a>
+                <a href="{{ url_for('home') }}" class="nav-link flex-fill">Supported</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container postion-relative redirect text-center w-auto">
+        <div class="redirect-box w-90 d-flex flex-column justify-content-center align-items-center">
+          <h4 class="redirect-text">Redirecting... <br> Please wait <span id="time">10</span> seconds!</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script to perform redirection after a delay -->
+  <script>
+    // Function to perform redirection after a delay
+    function redirectTo(url) {
+    window.location.href = url;
+    }
+
+    // Call the redirectTo function with the specified URL and delay
+    setTimeout(function () {
+      redirectTo("{{ redirect_url }}");
+    }, {{ countdown_seconds }} * 1000);
+    
+    var seconds_left = 10;
+    
+    var interval = setInterval(function() {
+    document.getElementById('time').innerHTML = --seconds_left;
+    
+    if (seconds_left <= 0)
+      {
+        document.getElementById('time').innerHTML = "0";
+        clearInterval(interval);
+      }
+    }, 1000);
+
+  </script>
+
+</body>
+
+</html>

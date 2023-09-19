@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quantumix</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+  </script>
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/main.css') }}">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <meta name="description" content="Amplify your Roblox gameplay with our roblox script.">
+  <meta name="keywords" content="roblox scripts, find roblox scripts, best roblox scripts, synapsex, roblox script lua, roblox script finder">
+  <meta name="author" content="Quantumix">
+
+  <link rel="icon" type="image/x-icon" href="https://media.discordapp.net/attachments/1117379815641718837/1131256464288256040/20230718_225003.png">
+  <meta name="theme-color" content="#000000">
+</head>
+
+<body onload="load()">
+
+  <div class="wrapper">
+    <div class="container-qx">
+      <div class="header">
+        <div class="navigation-header d-flex text-center justify-content-center align-items-center">
+          <div class="container w-100">
+            <div class="container nav-items text-center w-100">
+              <div class="d-flex flex-wrap text-center justify-content-center w-100">
+                <a href="{{ url_for('home') }}" class="nav-link flex-fill">Home</a>
+                <a href="" class="nav-link flex-fill">Get Key</a>
+                <a href="" class="nav-link flex-fill">Supported</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if scriptID %}
+        {% for sid in data %}
+          {% if scriptID == sid.ScriptID %}
+            <div class="x1-container text-center d-flex flex-column align-items-center">
+              <div class="x1">
+                
+              </div>
+              <div class="x2 w-100">
+                <a class="btn x2-download ripple w-100">Click Download</a>
+              </div>
+            </div>
+          {% else %}
+            <div class="error text-center">
+              <h4 class="error">{{ scriptID }}</h4>
+              <p>Script Not Found</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <div class="search d-flex text-center justify-content-center align-items-center">
+          <div class="searchbar rounded text-start d-flex flex-row">
+            <form method="get">
+              <button type="submit" class="search-button">
+                <i class="bx bx-search"></i>
+              </button>
+              <input value="{{ query }}" name="search" class="searchinput" placeholder="Enter Script Name" type="text">
+            </form>
+          </div>
+        </div>
+        <div class="scripts overlay-body d-flex flex-column text-center w-100">
+          {% if query %}
+            <h4><small>Searched result for <strong>"{{ query }}"</strong></small></h4>
+          {% endif %}
+          <div class="scripts-container container w-100">
+            <ul class="list-group list-group-horizontal-sm collapse text-center section-list w-100 flex-row mb-3 d-flex aligns-items-center justify-content-center flex-wrap">
+             {% if query %}
+               {% for result in results %}
+                 <li class="list-group-item w-auto text-center d-flex aligns-items-center justify-content-center">
+                    <a class="script-card">
+                      <div class="script-img">
+                        <img class="w-100" src="https://media.discordapp.net/attachments/1117169500106792972/1133814226834706532/2d793f3ba86058814e2dd977b0f5c5be.jpg">
+                      </div>
+                      <div class="w-100 script-body text-start d-flex">
+                        <div class="script-info d-grid flex-grow-1">
+                          <strong class="script-name">{{ result.Name }}</strong>
+                          <small class="uploader text-muted"><i class="bx bx-user"></i> by {{ result.Uploader }} | <i class="bx bxs-joystick"></i> {{ result.GameName }}</small>
+                        </div>
+                        <a class="script-get ripple text-center d-flex justify-content-center align-items-center">
+                          <p>Download/View</p>
+                        </a>
+                      </div>
+                    </a>
+                  </li>
+               {% endfor %}
+             {% else %}
+               {% for item in data %}
+                  <li class="list-group-item w-auto text-center d-flex aligns-items-center justify-content-center">
+                    <a class="script-card" href="#">
+                      <div class="script-img">
+                        <img class="w-100" src="https://media.discordapp.net/attachments/1117169500106792972/1133814226834706532/2d793f3ba86058814e2dd977b0f5c5be.jpg">
+                      </div>
+                      <div class="w-100 script-body text-start d-flex">
+                        <div class="script-info d-grid flex-grow-1">
+                          <strong class="script-name">{{ item.Name }}</strong>
+                          <small class="uploader text-muted"><i class="bx bx-user"></i> by {{ item.Uploader }} | <i class="bx bxs-joystick"></i> {{ item.GameName }}</small>
+                        </div>
+                        <div class="script-get ripple text-center d-flex justify-content-center align-items-center">
+                          Download/View
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+               {% endfor %}
+             {% endif %}
+           </ul>
+          </div>
+           <nav aria-label="Page navigation">
+             <ul class="pagination justify-content-center">
+               {% if page > 1 %}
+                 <li class="page-item ">
+                   <a class="page-link page-button text-center" href="?page={{ page-1 }}"><i class="bx bx-left-arrow-alt icon"></i></a>
+                 </li>
+               {% endif %}
+                 <li class="page-item">
+                   {% for range in pagination_range %}
+                      {% if loop.index <= 1 %}
+                        <a class="page-link page-button pages" href="?page={{ range }}"><span class="pages-text">{{ page }} / {{total_pages}}</span></a>
+                      {% endif %}
+                    {% endfor %}
+                 </li>
+               {% if page < total_pages %}
+                 <li class="page-item">
+                   <a class="page-link page-button text-center" href="?page={{ page+1 }}"><i class="bx bx-right-arrow-alt icon"></i></a>
+                 </li>
+               {% endif %}
+             </ul>
+           </nav>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <script>
+    // Clear the search input value after form submission
+    const searchInput = document.querySelector('input[name="search"]');
+    searchInput.value = '';
+  </script>
+  
+</body>
+
+</html>
