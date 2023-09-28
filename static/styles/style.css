@@ -350,20 +350,7 @@
     width: 100% !important;
 }
 
-.script-img {
-  border-top: 1px solid #192234;
-  border-left: 1px solid #192234;
-  border-right: 1px solid #192234;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  box-shadow: 0px 3px 20px #19223459;
-  transition: transform 0.3s;
-}
 
-.script-img img {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
 
 .script-body {
   background: #020818; 
@@ -385,6 +372,11 @@
   width: 100%;
   white-space: nowrap;
   font-size: 15px;
+}
+
+.sid-img {
+  border-radius: 20px;
+  padding: 10px;
 }
 
 .uploader {
@@ -409,8 +401,8 @@
 
 .bxs-joystick {
   position: relative;
-  top: 0.5px;
-  color: var(--yj-warning);
+  top: 1.5px;
+  color: var(--yj-info);
 }
 
 .script-get {
@@ -426,6 +418,7 @@
   margin-top: 50px;
   width: 70%;
   box-shadow: 0px 3px 20px #19223459;
+  color: white !important;
 }
 
 .search-button {
@@ -441,6 +434,70 @@
   position: relative;
   top: 1px;
   left: 5px;
+}
+
+.ico {
+  padding: 5px !important;
+  padding-top: 7px !important;
+}
+
+.bxs-face {
+  color: var(--yj-primary);
+  position: relative;
+  top: 1.5px;
+}
+
+.bxs-lock {
+  color: var(--yj-orange);
+  position: relative;
+  top: 1.5px;
+}
+
+.bxs-mobile {
+  color: var(--yj-green);
+  position: relative;
+  top: 1.5px;
+}
+
+.gameName-sid {
+  background: rgba(23,114,208,0.5);
+  border: 1px solid rgba(23,114,208,1);
+  width: auto !important;
+}
+
+.key-system {
+  background: rgba(253,126,20,0.5);
+  border: 1px solid rgba(253,126,20,1);
+  width: auto !important;
+}
+
+.mobile-friendly {
+  background: rgba(25,135,84,0.5);
+  border: 1px solid rgba(25,135,84,1);
+  width: auto !important;
+}
+
+.modal-content {
+  background: #020818;
+  color: white;
+}
+
+.close-modal {
+  background: rgb(147,151,173, 0.5);
+  border: 1px solid rgb(147,151,173, 1);
+  color: white!important;
+}
+
+.main-script {
+  overflow: scroll;
+}
+
+.script-loadstring {
+  background: rgb(25,34,52, 0.5);
+  border: 1px solid rgb(25,34,52, 1);
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
 }
 
 .searchinput {
@@ -500,28 +557,84 @@
 .x1-container {
   background: transparent;
   padding: 20px;
-  height: 100vh;
+  height: 100vy;
 }
 
-.x1 {
-  margin-top: 10px;
-  background: #020818;
-  border: 1px solid #192234;
-  height: 350px !important;
-  width: 100%;
-  border-radius: 10px;
+@media (max-width: 600px) {
+  .x1 {
+    margin-top: 10px;
+    background: #020818;
+    border: 1px solid #192234;
+    height: auto !important;
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .x2 {
+    margin-top: 20px !important;
+    width: 100%;
+    padding: 10px;
+  }
 }
 
-.x2 {
-  margin-top: 20px !important;
-  width: 100%;
-  padding: 10px;
+@media (min-width: 768px) {
+  .x1 {
+    margin-top: 10px;
+    background: #020818;
+    border: 1px solid #192234;
+    height: auto !important;
+    width: 35%;
+    border-radius: 10px;
+  }
+  
+  .x2 {
+    margin-top: 20px !important;
+    width: 35%;
+    padding: 10px;
+  }
+
+  .script-card {
+    width: 50%;
+    height: 25%
+  }
+}
+
+.script-img {
+  border-top: 1px solid #192234;
+  border-left: 1px solid #192234;
+  border-right: 1px solid #192234;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: 0px 3px 20px #19223459;
+  transition: transform 0.3s;
+}
+
+.script-img img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .x2-download {
   background: var(--yj-primary);
   padding: 10px;
   border-radius: 10px;
+}
+
+.copy {
+  background: rgba(102,16,242,0.5);
+  border: solid 1px rgba(102,16,242,1);
+  color: white;
+}
+
+.download {
+  background: rgba(214,51,132,0.5);
+  border: 1px solid #d63384;
+  color: white;
+}
+
+.divider {
+  color: #192234;
+  height: 2px;
 }
 
 .script-txt {
@@ -573,12 +686,13 @@
 
 /** Fixes **/
 .btn:hover {
-  color: var(--yj-primary) !important;
+  color: white !important;
   box-shadow: none !important;
 }
 
 .btn:focus,
 .btn:active {
+  color: white;
   outline: none;
   box-shadow: none !important;
 }
@@ -627,6 +741,14 @@ input:active {
   background: transparent !important;
 }
 
+textarea:focus,
+textarea:hover,
+textarea:active {
+  color: white !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
 /* Disable highlighting on tap */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -635,4 +757,13 @@ input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s; /* Adjust the transition timing if needed */
     background-color: #020818 !important;
     border: solid 1px #192234;
+}
+
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  background-color: #020818 !important;
+  border: solid 1px #192234;
 }

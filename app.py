@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, g, Response, flash, abort, jsonify
+from flask import Flask, render_template, render_template_string, request, redirect, url_for, g, Response, flash, abort, jsonify, send_file
 from pymongo import MongoClient
 from user.forms import KeySystem, KeyCaptcha
 from datetime import datetime 
@@ -24,12 +24,17 @@ DataDocument = Database['Data']
 KeyDocument = Database['Users']
 ScriptDocument = Database['Scripts']
 #KeyDocument.create_index("createdAt", expireAfterSeconds=120)
-ScriptDocument.create_index([("Name", "text"), ("Uploader", "text"), ("GameName", "text")])
+#ScriptDocument.create_index([("Name", "text"), ("Uploader", "text"), ("GameName", "text")])
 
 # Error Handling
 @app.errorhandler(404)
 def not_found(e):
   errorType = "NotFound"
+  return render_template('error-handler.html', errorType=errorType)
+
+@app.errorhandler(500)
+def internal_error(e):
+  errorType = "InternalError"
   return render_template('error-handler.html', errorType=errorType)
 
 # Function
@@ -64,7 +69,7 @@ def home():
   
   return render_template('home.html', DataCheckpoint=DataCheckpoint, total=total, Data=DBDocument)
 
-@app.route('/scripts', methods=["GET", "POST"])
+@app.route('/scripts', methods=["GET"])
 def scripts():
   scriptID = request.args.get('id', "")
   search_query = request.args.get('search', "")
@@ -89,6 +94,7 @@ def scripts():
 
 @app.route('/pagination')
 def pagination():
+  abort(500)
   page = int(request.args.get('page', 1))
   items_per_page = 3
   total_items = ScriptDocument.count_documents({})  # Count total items in collection
@@ -173,19 +179,36 @@ def key(userKey):
 @app.route('/redirect/getkey')
 def getkeyredirect():
   return render_template('getkey.html')
+  
+@app.route('/raw/<script>', methods=['GET'])
+def raw(script):
+  name = script
+  if name:
+    scriptName = ScriptDocument.find_one({"Name": name})
+    script = scriptName['Script'].__str__()
+    response = Response(script, content_type='text/plain')
+    return response
 
 # Api
 @app.route('/api/quantumix/executed', methods=['POST'])
 def increment_players():
-  usrname = request.args.get('username', '')
-  usrid = request.args.get('userid', '')
-  usravatar = request.args.get('avatar', '')
-  if usrname and usrid and usravatar:
-    KeyDocument.update_one({"_id": 'recentExecute'}, {"$inc": {"username": usrname, "userid": usrid, "avatar": usravatar}})
-  increment_players_executed()
-  return jsonify({'message': 'User Executed Successful!'})
+  if (request.data):
+    readData = request.get_json(force=False, silent=False, cache=True)
+    username = readData['username']
+    userid = readData['userid']
+    avatar = readData['avatar']
+    if username and userid and avatar:
+      KeyDocument.update_one({"_id": "recentExecute"}, {'$set': {'username': username, 'userid': userid, 'avatar': avatar}})
+      increment_players_executed()
+      return jsonify({'message': 'succes'})
+    else:
+      return 'No Data', 404
 
 @app.route('/api/executes', methods=['GET'])
 def executes():
   data = DataDocument.find_one({'_id': "players"})
   return jsonify({"executes": data['count']})
+
+@app.route('/download')
+def download():
+  path = ""

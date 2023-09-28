@@ -53,6 +53,13 @@
               Page You're Looking For Is Not Found
             </p>
           </small>
+          {% elif errorType == "InternalError" %}
+          <h4 class="redirect-text" style="font-size: 50px;">500</h4>
+          <small>
+            <p>
+              There's an internal error or a server overload
+            </p>
+          </small>
           {% endif %}
         </div>
       </div>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quantumix</title>
+  <title>Quantumix | Script</title>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
   </script>
   <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -16,11 +16,20 @@
   <meta name="keywords" content="roblox scripts, find roblox scripts, best roblox scripts, synapsex, roblox script lua, roblox script finder">
   <meta name="author" content="Quantumix">
 
-  <link rel="icon" type="image/x-icon" href="https://media.discordapp.net/attachments/1117379815641718837/1131256464288256040/20230718_225003.png">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VEHXXEPXDX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-VEHXXEPXDX');
+  </script>
+
+  <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ZenithDust/Quantumix/main/Files/logo.png">
   <meta name="theme-color" content="#000000">
 </head>
 
-<body onload="load()">
+<body>
 
   <div class="wrapper">
     <div class="container-qx">
@@ -41,14 +50,50 @@
         {% for sid in data %}
           {% if scriptID == sid.ScriptID %}
             <div class="x1-container text-center d-flex flex-column align-items-center">
-              <div class="x1">
-                
+              <a href="{{ url_for('scripts') }}"><i class="bx bx-left-arrow-alt" style="position: relative; top: 1.5px;"></i> Go Back</a>
+              <div class="x1 text-wrap">
+                <img src="{{ sid.Image }}" class="w-100 h-25 sid-img">
+                <hr class="divider">
+                <h1>{{ sid.Name }}</h1>
+                <p class="text-muted" style="font-size: 10px;">Uploaded By: {{ sid.Uploader }}</p>
+                {% if sid.Developer %}
+                  <p class="text-muted" style="font-size: 10px;">Developer: {{ sid.Uploader }}</p>
+                {% else %}
+                  <p class="text-muted" style="font-size: 10px;">Developer: Unknown</p>
+                {% endif %}
+                <br>
+                <p class="gameName-sid"><i class="bx bxs-joystick"></i> {{ sid.GameName }}</p>
+                {% if sid.KeySystem == true %}
+                  <p class="key-system"><i class="bx bxs-lock"></i> Key System</p>
+                {% endif %}
+                {% if sid.MobileFriendly == true %}
+                  <p class="mobile-friendly"><i class="bx bxs-mobile"></i> Mobile Friendly</p>
+                {% endif %}
               </div>
-              <div class="x2 w-100">
-                <a class="btn x2-download ripple w-100">Click Download</a>
+              <div class="x2">
+                <button class="btn x2-download ripple w-100 text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">Download</button>
+              </div>
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header border-0">
+                      <h1>{{ sid.Name }}</h1>
+                    </div>
+                    <div class="modal-body border-0 h-100">
+                      <div class="main-script w-100 h-100">
+                        <pre><textarea id="scriptLoadsting" class="script-loadstring w-100 h-100" type="text" readonly>{{ sid.Script }}</textarea></pre>
+                      </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                      <button type="button" class="btn close-modal" data-bs-dismiss="modal">Close</button>
+                      <button type="button" onclick="copyScript()" class="btn copy">Copy</button>
+                      <a href="raw/{{ sid.Name }}" class="btn download">Raw</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          {% else %}
+          {% elif scriptID == sid.ScriptID %}
             <div class="error text-center">
               <h4 class="error">{{ scriptID }}</h4>
               <p>Script Not Found</p>
@@ -74,19 +119,19 @@
             <ul class="list-group list-group-horizontal-sm collapse text-center section-list w-100 flex-row mb-3 d-flex aligns-items-center justify-content-center flex-wrap">
              {% if query %}
                {% for result in results %}
-                 <li class="list-group-item w-auto text-center d-flex aligns-items-center justify-content-center">
-                    <a class="script-card">
+                  <li class="list-group-item w-auto text-center d-flex aligns-items-center justify-content-center">
+                    <a class="script-card" href="?id={{ result.ScriptID }}">
                       <div class="script-img">
-                        <img class="w-100" src="https://media.discordapp.net/attachments/1117169500106792972/1133814226834706532/2d793f3ba86058814e2dd977b0f5c5be.jpg">
+                        <img class="w-100" src="{{ result.Image }}">
                       </div>
                       <div class="w-100 script-body text-start d-flex">
                         <div class="script-info d-grid flex-grow-1">
                           <strong class="script-name">{{ result.Name }}</strong>
                           <small class="uploader text-muted"><i class="bx bx-user"></i> by {{ result.Uploader }} | <i class="bx bxs-joystick"></i> {{ result.GameName }}</small>
                         </div>
-                        <a class="script-get ripple text-center d-flex justify-content-center align-items-center">
-                          <p>Download/View</p>
-                        </a>
+                        <div class="script-get ripple text-center d-flex justify-content-center align-items-center">
+                            Download/View
+                        </div>
                       </div>
                     </a>
                   </li>
@@ -94,9 +139,9 @@
              {% else %}
                {% for item in data %}
                   <li class="list-group-item w-auto text-center d-flex aligns-items-center justify-content-center">
-                    <a class="script-card" href="#">
+                    <a class="script-card" href="?id={{ item.ScriptID }}">
                       <div class="script-img">
-                        <img class="w-100" src="https://media.discordapp.net/attachments/1117169500106792972/1133814226834706532/2d793f3ba86058814e2dd977b0f5c5be.jpg">
+                        <img class="w-100" src="{{ item.Image }}">
                       </div>
                       <div class="w-100 script-body text-start d-flex">
                         <div class="script-info d-grid flex-grow-1">
@@ -104,7 +149,7 @@
                           <small class="uploader text-muted"><i class="bx bx-user"></i> by {{ item.Uploader }} | <i class="bx bxs-joystick"></i> {{ item.GameName }}</small>
                         </div>
                         <div class="script-get ripple text-center d-flex justify-content-center align-items-center">
-                          Download/View
+                            Download/View
                         </div>
                       </div>
                     </a>
@@ -143,6 +188,12 @@
     // Clear the search input value after form submission
     const searchInput = document.querySelector('input[name="search"]');
     searchInput.value = '';
+    
+    function copyScript() {
+      let scriptToCopy = document.getElementById('scriptLoadsting')
+      scriptToCopy.select();
+      document.execCommand("copy");
+    }
   </script>
   
 </body>
